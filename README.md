@@ -5,7 +5,6 @@ Submission repo for **Kalakriti** ("design your heart out"), theme **Health & We
 ## Status
 
 - **Round 1 deadline: 12:00 IST, 27 Sep 2026** (submit via the organisers' Forms link — this repo is the working hub and, per the rulebook, an acceptable submission format on its own: a public GitHub repo with screenshots in this README).
-- Round 2 (if shortlisted): 29 Sep 2026, live at MPSTME Mumbai.
 - Current phase: **four required annotated screens and two context/comparison screens built.** They are design concepts; booking, consent, mood logging, and calendar actions do not connect to live Cult.fit services.
 
 ## What this is
@@ -52,9 +51,7 @@ Full reasoning for each decision is in [`brief/screen-flow.md`](./brief/screen-f
 [`product-concept/`](./product-concept) contains the research index, business and persona hypotheses, feature map, technical and consent questions, stress test, a staged [product spec and roadmap](./product-concept/06-PRODUCT-SPEC-AND-ROADMAP.md), and a [consumer review with ranked improvements](./product-concept/07-CROSS-POLLINATION-AND-CONSUMER-REVIEW.md). A first-session prep card, privacy receipt, discreet reminders, and stronger service recovery are **planned improvements**, not parts of the submitted screens. The [UI/UX improvement plan](./design/UI-UX-IMPROVEMENT-PLAN.md) specifies how to refine the existing flow without changing its required order. The Bee (CycleSync) and Relationship AI connections reuse interaction patterns only, with separate consent and no transfer of personal data.
 
 ## Team
-
-- Love Luthra ([@loveluthra](https://github.com/loveluthra))
-- *(add teammates here — name + GitHub handle, once added as collaborators)*
+- Misha Shah, Aarav Wagani, Love Luthra
 
 ## Submission format
 
