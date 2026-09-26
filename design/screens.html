@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kalakriti — Cult.fit Faye screens</title>
+<style>
+  :root{
+    --coral:#F06055;
+    --coral-deep:#AD453D; /* WCAG-fixed shade for text/CTA use on light backgrounds — see CONTRAST-AUDIT.md */
+    --yellow:#FFC94A;
+    --pink:#FF9FCE;
+    --ink:#17151A;
+    --ink-soft:#4A4652;
+    --paper:#FFFFFF;
+    --frost:rgba(255,255,255,0.62);
+    --frost-strong:rgba(255,255,255,0.82);
+    --line:rgba(23,21,26,0.08);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#EDEAE6;
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex;
+    gap:40px;
+    padding:48px;
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+  .frame{
+    width:390px;
+    height:844px;
+    border-radius:44px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 30px 60px rgba(0,0,0,0.18);
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+  }
+  .bg-warm{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(120% 70% at 15% 0%, #FFE3B0 0%, transparent 55%),
+      radial-gradient(120% 70% at 100% 15%, #FFC7DE 0%, transparent 55%),
+      radial-gradient(140% 90% at 50% 100%, #E7D6FF 0%, transparent 60%),
+      linear-gradient(180deg,#FFF6EC 0%, #FBEFFA 55%, #F3E9FE 100%);
+  }
+  .statusbar{
+    position:relative; z-index:2; flex-shrink:0;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 26px 4px; font-size:14px; font-weight:600; color:var(--ink);
+  }
+  .content{ position:relative; z-index:2; flex:1; min-height:0; display:flex; flex-direction:column; }
+  .scroll{ flex:1; min-height:0; overflow:hidden; padding:14px 20px 0; }
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:2px 2px 14px; }
+  .back{ width:36px;height:36px;border-radius:12px;background:var(--frost-strong);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--ink); }
+  .h1{ font-size:26px; font-weight:800; color:var(--ink); margin:2px 0 2px; letter-spacing:-0.3px; }
+  .sub{ font-size:14px; color:var(--ink-soft); margin:0 0 14px; line-height:1.4; }
+  .chiprow{ display:flex; gap:8px; overflow:hidden; margin-bottom:14px; flex-wrap:wrap;}
+  .chip{ background:var(--frost-strong); border:1px solid var(--line); padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; color:var(--ink); white-space:nowrap;}
+  .chip.active{ background:var(--ink); color:#fff; border-color:var(--ink);}
+  .card{ background:var(--frost); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,0.6); border-radius:24px; padding:16px; margin-bottom:14px; box-shadow:0 10px 30px rgba(60,40,30,0.08); }
+  .therapist{ display:flex; gap:12px; }
+  .avatar{ width:64px;height:64px;border-radius:18px;flex-shrink:0; background:linear-gradient(135deg,var(--pink),var(--yellow)); }
+  .t-name{ font-weight:800; font-size:16px; color:var(--ink); }
+  .t-role{ font-size:12.5px; color:var(--ink-soft); margin:2px 0 6px;}
+  .badgerow{ display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;}
+  .badge{ font-size:11px; font-weight:700; background:rgba(255,255,255,0.55); color:var(--coral-deep); padding:4px 8px; border-radius:8px;}
+  .trust{ font-size:11.5px; color:var(--ink-soft); margin-top:4px;}
+  .rowbetween{ display:flex; justify-content:space-between; align-items:center; margin-top:10px;}
+  .slot{ font-size:12.5px; font-weight:700; color:var(--ink);}
+  .price{ font-size:12.5px; color:var(--ink-soft);}
+  .cta{ background:var(--coral-deep); color:#fff; border:none; border-radius:16px; padding:15px; font-size:15px; font-weight:800; width:100%; text-align:center; box-shadow:0 12px 24px rgba(173,69,61,0.35); }
+  .cta.ghost{ background:transparent; color:var(--ink); box-shadow:none; border:1.5px solid rgba(23,21,26,0.18); }
+  .navbar{ position:relative; z-index:2; flex-shrink:0; display:flex; justify-content:space-around; align-items:center; padding:14px 10px calc(env(safe-area-inset-bottom) + 14px); background:var(--frost-strong); backdrop-filter:blur(10px); border-top:1px solid var(--line);}
+  .navitem{ font-size:11px; font-weight:700; color:var(--ink-soft); text-align:center; }
+  .navitem span{ display:block; width:22px;height:22px;border-radius:8px;background:rgba(23,21,26,0.08); margin:0 auto 4px;}
+  .navitem.on{ color:var(--coral-deep);}
+  .navitem.on span{ background:var(--coral-deep); }
+  .mascot{ width:74px; height:64px; margin:0 auto; }
+  .field{ display:flex; gap:8px; align-items:center; background:var(--frost-strong); border:1px solid var(--line); border-radius:16px; padding:12px 14px; font-size:14px; color:var(--ink-soft); margin-bottom:14px;}
+  .label{ font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px;}
+  .kv{ display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--line); font-size:14px;}
+  .kv:last-child{ border-bottom:none;}
+  .kv b{ color:var(--ink); }
+  .kv span{ color:var(--ink-soft); }
+  .privacy{ font-size:12px; color:var(--ink-soft); line-height:1.5; background:rgba(255,255,255,0.5); border-radius:14px; padding:12px 14px; margin-top:2px;}
+  .moodrow{ display:flex; justify-content:space-between; margin:6px 0 18px; }
+  .mood{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:11px; font-weight:700; color:var(--ink-soft); }
+  .moodface{ width:46px;height:46px;border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:22px; background:var(--frost-strong); border:2px solid transparent;}
+  .mood.sel .moodface{ border-color:var(--coral); background:#fff; }
+  .arc-wrap{ display:flex; align-items:center; gap:14px; }
+  .arc-label{ font-size:13px; color:var(--ink-soft); }
+  .arc-val{ font-size:20px; font-weight:800; color:var(--ink);}
+  .note{ font-size:12.5px; color:var(--ink-soft); background:rgba(255,255,255,0.55); border-radius:14px; padding:10px 12px; margin-top:8px;}
+  .suggest{ display:flex; gap:12px; align-items:center; }
+  .suggest .icon{ width:42px;height:42px;border-radius:12px; background:linear-gradient(135deg,var(--yellow),var(--coral)); flex-shrink:0;}
+  .suggest b{ font-size:14px; }
+  .suggest p{ margin:2px 0 0; font-size:12.5px; color:var(--ink-soft);}
+  .rescard{ display:flex; gap:12px; align-items:flex-start;}
+  .resthumb{ width:56px;height:56px;border-radius:14px; flex-shrink:0; background:linear-gradient(135deg,var(--pink),#B9A3FF);}
+  .resmeta{ font-size:11.5px; color:var(--ink-soft); font-weight:700; margin-top:4px;}
+
+  /* --- dark "existing Aurora fitness" comparison frame --- */
+  .bg-dark{ position:absolute; inset:0; background:
+      radial-gradient(90% 60% at 20% 0%, #2A1F3D 0%, transparent 60%),
+      radial-gradient(90% 60% at 100% 20%, #3A1620 0%, transparent 60%),
+      linear-gradient(180deg,#0B0A0F 0%, #120E16 100%); }
+  .dark .statusbar{ color:#fff; }
+  .dark .h1{ color:#fff; }
+  .dark .sub{ color:rgba(255,255,255,0.6); }
+  .dark .topbar > div:first-child, .dark .topbar > div:last-child{ background:rgba(255,255,255,0.08); color:#fff; }
+  .dark .navbar{ background:rgba(20,16,24,0.85); border-top:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(10px); }
+  .dark .navitem{ color:rgba(255,255,255,0.45); }
+  .dark .navitem span{ background:rgba(255,255,255,0.12); }
+  .dark .navitem.on{ color:var(--coral); } /* bright coral kept here on purpose: measured 5.7:1 on the dark navbar, no fix needed — only the warm-frame instance needed darkening */
+  .dark .navitem.on span{ background:var(--coral); }
+  .classcard{ position:relative; border-radius:22px; overflow:hidden; height:160px; margin-bottom:14px;
+    background:linear-gradient(140deg,#3B2A55,#7A2E3A); display:flex; align-items:flex-end; padding:16px; }
+  .classcard .tag{ position:absolute; top:14px; left:14px; background:var(--coral); color:#fff; font-size:11px; font-weight:800; padding:5px 10px; border-radius:8px; letter-spacing:.5px; }
+  .classcard .ctitle{ color:#fff; font-weight:800; font-size:18px; }
+  .classcard .csub{ color:rgba(255,255,255,0.7); font-size:12.5px; margin-top:2px;}
+  .streak{ display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:14px; margin-bottom:14px;}
+  .streak .flame{ width:34px;height:34px; flex-shrink:0;}
+  .streak b{ color:#fff; font-size:14px;}
+  .streak p{ margin:2px 0 0; color:rgba(255,255,255,0.5); font-size:12px;}
+  .arrowlink{ display:flex; flex-direction:column; align-items:center; justify-content:center; width:120px; gap:10px; color:var(--ink-soft); font-size:12.5px; font-weight:700; text-align:center; }
+  .brandmark{ display:flex; align-items:center; gap:7px; font-size:13px; font-weight:700; color:var(--ink-soft); }
+  .brandmark .dot{ width:18px;height:18px;border-radius:50%; background:radial-gradient(circle at 32% 28%, #FFE3B0, var(--pink) 60%, var(--coral-deep) 130%); flex-shrink:0; box-shadow:0 2px 6px rgba(173,69,61,0.25);}
+  .brandmark b{ color:var(--ink); font-weight:800; }
+  .brandmark .sep{ opacity:.5; }
+  .arrowlink .tap{ width:52px;height:52px;border-radius:50%; background:#fff; box-shadow:0 12px 24px rgba(0,0,0,0.12); display:flex; align-items:center; justify-content:center; font-size:22px;}
+</style>
+</head>
+<body>
+
+<!-- CONTEXT A — ILLUSTRATIVE FITNESS HOME (dark Aurora style, drawn for comparison) -->
+<div class="frame dark" id="s0f">
+  <div class="bg-dark"></div>
+  <div class="statusbar"><span>9:41</span><span>●●●● Wi-Fi 100%</span></div>
+  <div class="content">
+    <div class="scroll">
+      <div class="topbar"><div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.6)">Good evening, Aanya</div><div class="back" style="font-size:16px;">🔔</div></div>
+      <div class="h1">Push your limits<br>today</div>
+      <div class="sub">3 classes booked this week · 1,240 kcal burned</div>
+
+      <div class="classcard">
+        <span class="tag">LIVE NOW</span>
+        <div><div class="ctitle">HRX Strength</div><div class="csub">45 min · Studio 2 · Coach Riya</div></div>
+      </div>
+      <div class="classcard" style="background:linear-gradient(140deg,#243B55,#2E5D4B);">
+        <span class="tag">6:00 PM</span>
+        <div><div class="ctitle">Cult Ride</div><div class="csub">30 min · Studio 4</div></div>
+      </div>
+
+      <div class="streak">
+        <svg class="flame" viewBox="0 0 24 24" fill="none"><path d="M12 2c1 4-3 5-3 9a3 3 0 006 0c0-1-.5-2-1-3 2 1 4 3 4 6a6 6 0 11-12 0c0-5 3-7 6-12z" fill="#F06055"/></svg>
+        <div><b>12-day streak</b><p>Longest streak this quarter — keep it going</p></div>
+      </div>
+    </div>
+    <div class="navbar">
+      <div class="navitem on"><span></span>Fitness</div>
+      <div class="navitem"><span></span>Faye</div>
+      <div class="navitem"><span></span>Transform</div>
+      <div class="navitem"><span></span>Profile</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrowlink">
+  <div class="tap">👆</div>
+  Tap the <b>Faye</b> tab — same app, calmer room
+</div>
+
+<!-- CONTEXT B — FAYE TAB LANDING (new warm theme, first thing you see) -->
+<div class="frame" id="s0m">
+  <div class="bg-warm"></div>
+  <div class="statusbar"><span>9:41</span><span>●●●● Wi-Fi 100%</span></div>
+  <div class="content">
+    <div class="scroll" style="display:flex;flex-direction:column;justify-content:center;">
+      <div style="text-align:center;">
+        <div class="mascot" style="width:96px;height:84px;">
+          <svg viewBox="0 0 74 64" width="96" height="84">
+            <defs>
+              <radialGradient id="fayeFace1" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#FFD3E8"/>
+                <stop offset="100%" stop-color="#FF9FCE"/>
+              </radialGradient>
+            </defs>
+            <ellipse cx="37" cy="34" rx="30" ry="26" fill="url(#fayeFace1)"/>
+            <ellipse cx="24" cy="40" rx="5" ry="3" fill="#FF6F91" opacity="0.35"/>
+            <ellipse cx="50" cy="40" rx="5" ry="3" fill="#FF6F91" opacity="0.35"/>
+            <circle cx="26" cy="30" r="4.2" fill="#17151A"/>
+            <circle cx="48" cy="30" r="4.2" fill="#17151A"/>
+            <path d="M28 40 Q37 46 46 40" stroke="#17151A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="h1" style="margin-top:14px;">Welcome to Faye</div>
+        <div class="sub" style="max-width:280px;margin:0 auto 22px;">Same membership, a quieter part of the app — book a therapist, check in with how you're doing, or just read something short.</div>
+      </div>
+      <button class="cta" style="margin-bottom:10px;">Find a therapist</button>
+      <button class="cta ghost">How are you feeling today?</button>
+    </div>
+    <div class="navbar">
+      <div class="navitem"><span></span>Fitness</div>
+      <div class="navitem on"><span></span>Faye</div>
+      <div class="navitem"><span></span>Transform</div>
+      <div class="navitem"><span></span>Profile</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 1 — THERAPIST DISCOVERY -->
+<div class="frame" id="s1">
+  <div class="bg-warm"></div>
+  <div class="statusbar"><span>9:41</span><span>●●●● Wi-Fi 100%</span></div>
+  <div class="content">
+    <div class="scroll">
+      <div class="topbar"><div class="back">‹</div><div class="brandmark"><span class="dot"></span><b>Faye</b><span class="sep">·</span>cult.fit</div><div style="width:36px"></div></div>
+      <div class="h1">Find your space</div>
+      <div class="sub">Talk to someone who gets it — book a session that fits your week.</div>
+      <div class="field">🔍 &nbsp; Search by concern, language...</div>
+      <div class="chiprow">
+        <div class="chip active">Anxiety</div>
+        <div class="chip">Stress</div>
+        <div class="chip">Relationships</div>
+        <div class="chip">Sleep</div>
+      </div>
+      <div class="chiprow">
+        <div class="chip">This week</div>
+        <div class="chip">Video</div>
+        <div class="chip">In-person</div>
+      </div>
+
+      <div class="card">
+        <div class="therapist">
+          <div class="avatar"></div>
+          <div>
+            <div class="t-name">Dr. Alisha Menon</div>
+            <div class="t-role">Clinical Psychologist · Anxiety &amp; stress</div>
+            <div class="badgerow"><span class="badge">Verified</span><span class="badge">8 yrs practice</span></div>
+          </div>
+        </div>
+        <div class="rowbetween">
+          <div class="slot">Next: Today, 6:30 PM</div>
+          <div class="price">₹1,200 / session</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="therapist">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--yellow),var(--pink))"></div>
+          <div>
+            <div class="t-name">Rohan Iyer</div>
+            <div class="t-role">Counselling Therapist · Relationships</div>
+            <div class="badgerow"><span class="badge">Verified</span><span class="badge">Hindi, English</span></div>
+          </div>
+        </div>
+        <div class="rowbetween">
+          <div class="slot">Next: Tomorrow, 11 AM</div>
+          <div class="price">₹950 / session</div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar">
+      <div class="navitem"><span></span>Fitness</div>
+      <div class="navitem on"><span></span>Faye</div>
+      <div class="navitem"><span></span>Transform</div>
+      <div class="navitem"><span></span>Profile</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2 — BOOKING CONFIRMATION -->
+<div class="frame" id="s2">
+  <div class="bg-warm"></div>
+  <div class="statusbar"><span>9:41</span><span>●●●● Wi-Fi 100%</span></div>
+  <div class="content">
+    <div class="scroll">
+      <div class="topbar"><div class="back">‹</div><div style="font-size:13px;font-weight:700;color:var(--ink-soft)">Booking confirmed</div><div style="width:36px"></div></div>
+
+      <div style="text-align:center;margin:18px 0 22px;">
+        <div class="mascot">
+          <svg viewBox="0 0 74 64" width="74" height="64">
+            <defs>
+              <radialGradient id="fayeFace2" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stop-color="#FFE9B8"/>
+                <stop offset="100%" stop-color="#FFC94A"/>
+              </radialGradient>
+            </defs>
+            <ellipse cx="37" cy="34" rx="30" ry="26" fill="url(#fayeFace2)"/>
+            <ellipse cx="24" cy="40" rx="5" ry="3" fill="#F06055" opacity="0.3"/>
+            <ellipse cx="50" cy="40" rx="5" ry="3" fill="#F06055" opacity="0.3"/>
+            <circle cx="26" cy="30" r="4.2" fill="#17151A"/>
+            <circle cx="48" cy="30" r="4.2" fill="#17151A"/>
+            <path d="M26 42 Q37 50 48 42" stroke="#17151A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="h1" style="margin-top:10px;">You're booked</div>
+        <div class="sub">Take a breath — the hard part (reaching out) is done.</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Session details</div>
+        <div class="kv"><span>Therapist</span><b>Dr. Alisha Menon</b></div>
+        <div class="kv"><span>When</span><b>Today, 6:30 PM</b></div>
+        <div class="kv"><span>Format</span><b>Video call</b></div>
+        <div class="kv"><span>Price</span><b>₹1,200</b></div>
+      </div>
+
+      <div class="card">
+        <div class="label">Cancellation</div>
+        <div class="sub" style="margin:0;">Free to reschedule or cancel up to 4 hours before your session. No questions asked.</div>
+      </div>
+
+      <div class="privacy">🔒 This booking stays out of shared activity, streaks, and your profile feed. Your therapist and authorised booking support can access the details needed for your session.</div>
+    </div>
+    <div style="position:relative;z-index:2;padding:16px 20px 22px;">
+      <button class="cta">Add to calendar</button>
+      <div style="height:10px"></div>
+      <button class="cta ghost">Reschedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 3 — MOOD-TRACKING DASHBOARD -->
+<div class="frame" id="s3">
+  <div class="bg-warm"></div>
+  <div class="statusbar"><span>9:41</span><span>●●●● Wi-Fi 100%</span></div>
+  <div class="content">
+    <div class="scroll">
+      <div class="topbar"><div class="brandmark"><span class="dot"></span><b>Faye</b><span class="sep">·</span>cult.fit</div><div class="back" style="font-size:16px;">🔔</div></div>
+      <div class="h1">Hi Aanya</div>
+      <div class="sub">How are you feeling today?</div>
+
+      <div class="moodrow">
+        <div class="mood"><div class="moodface">😌</div>Calm</div>
+        <div class="mood sel"><div class="moodface">🙂</div>Good</div>
+        <div class="mood"><div class="moodface">😐</div>Okay</div>
+        <div class="mood"><div class="moodface">😔</div>Low</div>
+        <div class="mood"><div class="moodface">😣</div>Anxious</div>
+      </div>
+
+      <div class="card">
+        <div class="label">This week</div>
+        <div class="arc-wrap">
+          <svg width="86" height="50" viewBox="0 0 86 50">
+            <path d="M6 46 A40 40 0 0 1 80 46" stroke="#F1E7DE" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M6 46 A40 40 0 0 1 62 12" stroke="#F06055" stroke-width="10" fill="none" stroke-linecap="round"/>
+          </svg>
+          <div><div class="arc-label">Mostly</div><div class="arc-val">Good 🙂</div></div>
+        </div>
+        <div class="note">You've checked in 3 times this week — steadier than last week.</div>
+      </div>
+
+      <div class="card">
+        <div class="label">For you today</div>
+        <div class="suggest">
+          <div class="icon"></div>
+          <div><b>5-minute breathing space</b><p>A short guided reset for the middle of a busy day.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar">
+      <div class="navitem"><span></span>Fitness</div>
+      <div class="navitem on"><span></span>Faye</div>
+      <div class="navitem"><span></span>Transform</div>
+      <div class="navitem"><span></span>Profile</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 4 — CONTENT / RESOURCE -->
+<div class="frame" id="s4">
+  <div class="bg-warm"></div>
+  <div class="statusbar"><span>9:41</span><span>●●●● Wi-Fi 100%</span></div>
+  <div class="content">
+    <div class="scroll">
+      <div class="topbar"><div class="back">‹</div><div style="font-size:13px;font-weight:700;color:var(--ink-soft)">Learn</div><div style="width:36px"></div></div>
+      <div class="h1">A little help, gently</div>
+      <div class="sub">Short, real, no jargon — pick what fits your day.</div>
+
+      <div class="chiprow">
+        <div class="chip active">Anxiety</div>
+        <div class="chip">Sleep</div>
+        <div class="chip">Relationships</div>
+        <div class="chip">Stress</div>
+      </div>
+
+      <div class="card">
+        <div class="rescard">
+          <div class="resthumb"></div>
+          <div>
+            <b>Why your mind races at 2am</b>
+            <div class="resmeta">Article · 4 min read</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rescard">
+          <div class="resthumb" style="background:linear-gradient(135deg,var(--yellow),var(--coral))"></div>
+          <div>
+            <b>A 10-minute wind-down</b>
+            <div class="resmeta">Audio · 10 min</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="rescard">
+          <div class="resthumb" style="background:linear-gradient(135deg,#B9A3FF,var(--pink))"></div>
+          <div>
+            <b>Naming the feeling exercise</b>
+            <div class="resmeta">Guided exercise · 5 min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar">
+      <div class="navitem"><span></span>Fitness</div>
+      <div class="navitem on"><span></span>Faye</div>
+      <div class="navitem"><span></span>Transform</div>
+      <div class="navitem"><span></span>Profile</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
